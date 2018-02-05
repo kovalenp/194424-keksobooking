@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Pavel Kovalenko](https://up.htmlacademy.ru/nodejs/1/user/194424).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Вохмянин](https://htmlacademy.ru/profile/id530823).
 
 ---
 
