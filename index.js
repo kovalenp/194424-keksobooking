@@ -9,26 +9,31 @@ const helpText = `Доступные команды:
 const defaultText = `Привет! Это учебное приложение. Автор: Павел Коваленко.
 Используйте "--help" для того чтобы увидеть доступные команды`;
 
+let exit = (code) => {
+  process.exit(code);
+};
+
+let errMsg = (cmd) =>{
+  return `Неизвестная команда ${cmd}.
+Чтобы прочитать правила использования приложения, наберите "--help"`
+};
+
 function doTask(args) {
   switch (args) {
     case '--version':
       console.log(verText);
-      break;
+      exit(0);
     case '--help':
       console.log(helpText);
-      break;
+      exit(0);
     case undefined:
       console.log(defaultText);
-      break;
+      exit(0);
     default:
       const err = errMsg(args);
       console.error(err);
+      exit(1);
   }
-}
-
-function errMsg(cmd){
-  return `Неизвестная команда ${cmd}.
-Чтобы прочитать правила использования приложения, наберите "--help"`
 }
 
 doTask(process.argv[2]); // умеет обрабатывать только одну команду
