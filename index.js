@@ -23,16 +23,20 @@ function doTask(args) {
     case '--version':
       console.log(verText);
       exit(0);
+      break;
     case '--help':
       console.log(helpText);
       exit(0);
+      break;
     case undefined:
       console.log(defaultText);
       exit(0);
+      break;
     default:
       const err = errMsg(args);
       console.error(err);
       exit(1);
+      break;
   }
 }
 
