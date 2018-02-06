@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION_TEXT = 'v0.0.1';
+const VERSION_TEXT = `v0.0.1`;
 
 const HELP_TEXT = `Доступные команды:
   --help    — печатает этот текст;
@@ -18,13 +18,13 @@ const getErrMsg = (cmd) =>{
 Чтобы прочитать правила использования приложения, наберите "--help"`
 };
 
-const doTask = (args) => {
-  switch (args) {
-    case '--version':
+const doTask = (cmd) => {
+  switch (cmd) {
+    case `--version`:
       console.log(VERSION_TEXT);
       exit(0);
       break;
-    case '--help':
+    case `--help`:
       console.log(HELP_TEXT);
       exit(0);
       break;
@@ -33,7 +33,7 @@ const doTask = (args) => {
       exit(0);
       break;
     default:
-      const err = getErrMsg(args);
+      const err = getErrMsg(cmd);
       console.error(err);
       exit(1);
       break;
