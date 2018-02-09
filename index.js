@@ -1,3 +1,5 @@
+const version = require(`./src/version`);
+
 const VERSION_TEXT = `v0.0.1`;
 
 const HELP_TEXT = `Доступные команды:
@@ -19,7 +21,7 @@ const getErrMsg = (cmd) =>{
 const doTask = (cmd) => {
   switch (cmd) {
     case `--version`:
-      console.log(VERSION_TEXT);
+      version.execute();
       exit(0);
       break;
     case `--help`:
