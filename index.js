@@ -1,43 +1,38 @@
-const VERSION_TEXT = `v0.0.1`;
+const author = require(`./src/author`);
+const version = require(`./src/version`);
+const description = require(`./src/description`);
+const license = require(`./src/license`);
+const help = require(`./src/help`);
 
-const HELP_TEXT = `Доступные команды:
-  --help    — печатает этот текст;
-  --version — печатает версию приложения;`;
+const commands = [author, version, description, license, help];
 
-const DEFAULT_TEXT = `Привет! Это учебное приложение. Автор: Павел Коваленко.
-Используйте "--help" для того чтобы увидеть доступные команды`;
+const parseCommand = () => {
+  const cmd = process.argv[2] ? process.argv[2].trim().toLowerCase().replace(`--`, ``) : null;
+  if (!cmd) {
+    console.log(`Oh, seems you didn't run any command. Please use "--help" to get some inspiration :)`);
+    exit(0);
+  }
+  return cmd;
+};
 
 const exit = (code) => {
   process.exit(code);
 };
 
 const getErrMsg = (cmd) =>{
-  return `Неизвестная команда ${cmd}.
-Чтобы прочитать правила использования приложения, наберите "--help"`;
+  return `Unrecognized command: ${cmd}.
+Please use "--help" to see the list of the available commands`;
 };
 
-const doTask = (cmd) => {
-  switch (cmd) {
-    case `--version`:
-      console.log(VERSION_TEXT);
-      exit(0);
-      break;
-    case `--help`:
-      console.log(HELP_TEXT);
-      exit(0);
-      break;
-    // case undefined запретил роскомнадзор
-    default:
-      if (cmd) {
-        const err = getErrMsg(cmd);
-        console.error(err);
-        exit(1);
-        break;
-      }
-      console.log(DEFAULT_TEXT);
-      exit(0);
-      break;
+const cmd = parseCommand();
+
+for (const command of commands) {
+  if (command.name === cmd) {
+    command.execute();
+    exit(0);
   }
-};
+}
 
-doTask(process.argv[2]); // умеет обрабатывать только одну команду
+console.log(getErrMsg(cmd));
+exit(1);
+
