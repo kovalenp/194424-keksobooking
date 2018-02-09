@@ -1,5 +1,3 @@
-'use strict';
-
 const VERSION_TEXT = `v0.0.1`;
 
 const HELP_TEXT = `Доступные команды:
@@ -15,7 +13,7 @@ const exit = (code) => {
 
 const getErrMsg = (cmd) =>{
   return `Неизвестная команда ${cmd}.
-Чтобы прочитать правила использования приложения, наберите "--help"`
+Чтобы прочитать правила использования приложения, наберите "--help"`;
 };
 
 const doTask = (cmd) => {
@@ -28,14 +26,16 @@ const doTask = (cmd) => {
       console.log(HELP_TEXT);
       exit(0);
       break;
-    case undefined:
+    // case undefined запретил роскомнадзор
+    default:
+      if (cmd) {
+        const err = getErrMsg(cmd);
+        console.error(err);
+        exit(1);
+        break;
+      }
       console.log(DEFAULT_TEXT);
       exit(0);
-      break;
-    default:
-      const err = getErrMsg(cmd);
-      console.error(err);
-      exit(1);
       break;
   }
 };
