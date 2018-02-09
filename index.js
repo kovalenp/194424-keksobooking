@@ -9,7 +9,7 @@ const commands = [author, version, description, license, help];
 const parseCommand = () => {
   const cmd = process.argv[2] ? process.argv[2].trim().toLowerCase().replace(`--`, ``) : null;
   if (!cmd) {
-    console.log(`Hi there! Please use a command. See "--help" for the inspiration`);
+    console.log(`Oh, seems you didn't run any command. Please use "--help" to get some inspiration :)`);
     exit(0);
   }
   return cmd;
