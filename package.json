@@ -1,0 +1,35 @@
+{
+  "name": "194424-keksobooking",
+  "version": "1.0.0",
+  "description": "htmlacademy hands on project",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint .",
+    "test": "npm run test:lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kovalenp/194424-keksobooking.git"
+  },
+  "keywords": [
+    "htmlacademy",
+    "keks",
+    "nodejs"
+  ],
+  "author": "Pavel Kovalenko <pavel@kovalenko.cz>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kovalenp/194424-keksobooking/issues"
+  },
+  "homepage": "https://github.com/kovalenp/194424-keksobooking#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-htmlacademy": "^0.4.2",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
