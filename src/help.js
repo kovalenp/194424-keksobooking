@@ -7,15 +7,15 @@ const license = require(`./license`);
 
 const otherCommands = [author, version, description, license];
 
-const name = `help`;
-const helpDescription = `Display help`;
+const NAME = `help`;
+const HELP_DESCRIPTION = `Display help`;
 
 const HELP_TEXT = `List of available commands:
-${[{name, description: helpDescription}, ...otherCommands].map((cmd) => `${colors.grey(`--${cmd.name}`)}\t${colors.green(`- ${cmd.description}`)}`).join(`;\n`)}`;
+${[{name: NAME, description: HELP_DESCRIPTION}, ...otherCommands].map((cmd) => `${colors.grey(`--${cmd.name}`)}\t${colors.green(`- ${cmd.description}`)}`).join(`;\n`)}`;
 
 module.exports = {
-  name,
-  description: helpDescription,
+  name: NAME,
+  description: HELP_DESCRIPTION,
   execute() {
     console.log(HELP_TEXT);
     process.exit(0);
