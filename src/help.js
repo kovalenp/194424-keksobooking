@@ -18,5 +18,6 @@ module.exports = {
   description: helpDescription,
   execute() {
     console.log(HELP_TEXT);
+    process.exit(0);
   }
 };

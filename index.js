@@ -2,37 +2,11 @@ const author = require(`./src/author`);
 const version = require(`./src/version`);
 const description = require(`./src/description`);
 const license = require(`./src/license`);
+const unrecognized = require(`./src/unrecognized`);
 const help = require(`./src/help`);
 
-const commands = [author, version, description, license, help];
+const commands = [author, version, description, license, help, unrecognized];
+const cmd = process.argv[2] ? process.argv[2].trim().toLowerCase() : null;
 
-const parseCommand = () => {
-  const cmd = process.argv[2] ? process.argv[2].trim().toLowerCase().replace(`--`, ``) : null;
-  if (!cmd) {
-    console.log(`Oh, seems you didn't run any command. Please use "--help" to get some inspiration :)`);
-    exit(0);
-  }
-  return cmd;
-};
-
-const exit = (code) => {
-  process.exit(code);
-};
-
-const getErrMsg = (cmd) =>{
-  return `Unrecognized command: ${cmd}.
-Please use "--help" to see the list of the available commands`;
-};
-
-const cmd = parseCommand();
-
-for (const command of commands) {
-  if (command.name === cmd) {
-    command.execute();
-    exit(0);
-  }
-}
-
-console.log(getErrMsg(cmd));
-exit(1);
-
+const cmdToExecute = commands.find((command)=>`--${command.name}` === cmd) || unrecognized.execute(cmd);
+cmdToExecute.execute();
