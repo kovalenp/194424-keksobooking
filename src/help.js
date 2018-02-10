@@ -1,17 +1,17 @@
+const colors = require(`colors`);
+
 const author = require(`./author`);
 const version = require(`./version`);
 const description = require(`./description`);
 const license = require(`./license`);
 
+const otherCommands = [author, version, description, license];
+
 const name = `help`;
 const helpDescription = `Display help`;
 
 const HELP_TEXT = `List of available commands:
-  --${name} — ${helpDescription};
-  --${version.name} — ${version.description};
-  --${author.name} — ${author.description};
-  --${description.name} — ${description.description};
-  --${license.name} — ${license.description};`;
+${[this, ...otherCommands].map((cmd) => `${colors.grey(`--${cmd.name}`)}\t${colors.green(`- ${cmd.description}`)}`).join(`;\n`)}`; // eslint-disable-line
 
 module.exports = {
   name,
@@ -21,3 +21,5 @@ module.exports = {
     process.exit(0);
   }
 };
+
+

@@ -22,7 +22,9 @@
     "url": "https://github.com/kovalenp/194424-keksobooking/issues"
   },
   "homepage": "https://github.com/kovalenp/194424-keksobooking#readme",
-  "dependencies": {},
+  "dependencies": {
+    "colors": "1.1.2"
+  },
   "devDependencies": {
     "eslint": "4.17.0",
     "eslint-config-htmlacademy": "0.4.2"
