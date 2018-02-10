@@ -10,8 +10,8 @@ module.exports = {
   name: `unrecognized`,
   description: `Run default action`,
   execute(cmd) {
-    // eslint-disable-next-line
-    cmd ? console.log(buildErrMsg(cmd)) : console.log(defaultMessage);
+    const text = cmd ? buildErrMsg(cmd) : defaultMessage;
+    console.log(text);
     process.exit(1);
   }
 };

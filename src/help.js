@@ -11,7 +11,7 @@ const name = `help`;
 const helpDescription = `Display help`;
 
 const HELP_TEXT = `List of available commands:
-${[this, ...otherCommands].map((cmd) => `${colors.grey(`--${cmd.name}`)}\t${colors.green(`- ${cmd.description}`)}`).join(`;\n`)}`; // eslint-disable-line
+${[{name, description: helpDescription}, ...otherCommands].map((cmd) => `${colors.grey(`--${cmd.name}`)}\t${colors.green(`- ${cmd.description}`)}`).join(`;\n`)}`;
 
 module.exports = {
   name,
