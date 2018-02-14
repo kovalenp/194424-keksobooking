@@ -1,7 +1,30 @@
+const data = require(`../data/keksobooking`);
+
+const getRandomFromArr = (arr) => arr[Math.floor(arr.length * Math.random())];
+
 const generateEntity = () => {
-  return {author: {
-    avatar: `http://`
-  }};
+  return {
+    author: {
+      avatar: `http://`
+    },
+    offer: {
+      title: getRandomFromArr(data.TITLES),
+      address: `{}`,
+      price: 10,
+      type: ``,
+      rooms: 5,
+      guests: 10,
+      checkin: `12:00`,
+      chekout: `14:00`,
+      features: [`wifi`],
+      description: ``,
+      photos: ``
+    },
+    location: {
+      x: 300,
+      y: 500,
+    }
+  };
 };
 
 module.exports = {generateEntity};
