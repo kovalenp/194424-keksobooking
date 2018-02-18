@@ -1,12 +1,18 @@
-const author = require(`./src/author`);
-const version = require(`./src/version`);
-const description = require(`./src/description`);
-const license = require(`./src/license`);
-const unrecognized = require(`./src/unrecognized`);
-const help = require(`./src/help`);
+const author = require(`./src/cliCommands/author`);
+const version = require(`./src/cliCommands/version`);
+const description = require(`./src/cliCommands/description`);
+const license = require(`./src/cliCommands/license`);
+const unrecognized = require(`./src/cliCommands/unrecognized`);
+const help = require(`./src/cliCommands/help`);
+const defaultCmd = require(`./src/cliCommands/defaultCmd`)
 
 const commands = [author, version, description, license, help, unrecognized];
 const cmd = process.argv[2] ? process.argv[2].trim().toLowerCase() : null;
 
+if (!cmd) {
+  defaultCmd.execute(); // async?
+}
+
 const cmdToExecute = commands.find((command)=>`--${command.name}` === cmd) || unrecognized.execute(cmd);
 cmdToExecute.execute();
+

@@ -1,4 +1,4 @@
-const packageInfo = require(`../package.json`);
+const packageInfo = require(`../../package`);
 
 const paintVersion = () =>{
   const version = packageInfo.version.split(`.`);
