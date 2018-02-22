@@ -27,7 +27,7 @@ const getPathToWriteFile = (rl) => {
     rl.question(`Where to save data?\n`, async (path) => {
       if (fs.existsSync(path)) {
         console.log(`${colors.red(`${path}`)} already exist!`);
-        let result = await repeatQuestion(shallRewrite);
+        let result = await repeatQuestion(rl, shallRewrite);
         if (!result) {
           return resolve(null);
         }
@@ -37,7 +37,7 @@ const getPathToWriteFile = (rl) => {
   });
 };
 
-const shallRewrite = () => {
+const shallRewrite = (rl) => {
   return new Promise((resolve) => {
     rl.question(`Do you want to rewrite it? ${colors.green(`y/n`)}\n`, (answer) => {
       if (answer === `y`) {
