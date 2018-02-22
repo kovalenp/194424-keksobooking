@@ -12,8 +12,12 @@ const HOSTNAME = `127.0.0.1`;
 const readFile = async (targetPath, res) => {
   const data = await readfile(targetPath);
   const ext = path.extname(targetPath).substring(1);
-  res.setHeader(`content-type`, contentTypes[ext]);
-  res.setHeader(`content-length`, Buffer.byteLength(data));
+  try {
+    res.setHeader(`content-type`, contentTypes[ext]);
+  } catch (err) {
+    throw new Error(`NO_SUCH_CONTENT_TYPE`);
+  }
+  res.setHeader(`content-length`, data.length);
   res.end(data);
 };
 
@@ -31,8 +35,15 @@ const server = http.createServer((req, res) => {
       res.statusMessage = `OK`;
       await readFile(absolutePath, res);
     } catch (e) {
-      res.writeHead(404, `Not Found`);
-      res.end();
+      if (e.message.includes(`ENOENT`)) {
+        res.writeHead(404, `Not Found`);
+        res.end();
+      }
+      if (e.message.includes(`NO_SUCH_CONTENT_TYPE`)) {
+        res.writeHead(400, `Unsupported content-type requested`);
+        res.end();
+      }
+      throw e;
     }
   })().catch((e) => {
     res.writeHead(500, e.message, {

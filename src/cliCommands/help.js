@@ -4,8 +4,9 @@ const author = require(`./author`);
 const version = require(`./version`);
 const description = require(`./description`);
 const license = require(`./license`);
+const server = require(`./serverCmd`);
 
-const otherCommands = [author, version, description, license];
+const otherCommands = [author, version, description, license, server];
 
 const NAME = `help`;
 const HELP_DESCRIPTION = `Display help`;
