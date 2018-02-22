@@ -1,22 +1,16 @@
 const colors = require(`colors`);
 
 const fs = require(`fs`);
-const readline = require(`readline`);
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const repeatQuestion = async (func) => {
+const repeatQuestion = async (rl, func) => {
   let result;
   do {
-    result = await func();
+    result = await func(rl);
   } while (!result);
   return result;
 };
 
-const askForParam = async () => {
+const askForParam = async (rl) => {
   return new Promise((resolve) => {
     rl.question(`How many data entities to generate?\n`, (num) => {
       if (isNaN(num)) {
@@ -28,7 +22,7 @@ const askForParam = async () => {
   });
 };
 
-const getPathToWriteFile = () => {
+const getPathToWriteFile = (rl) => {
   return new Promise((resolve) => {
     rl.question(`Where to save data?\n`, async (path) => {
       if (fs.existsSync(path)) {
@@ -60,6 +54,6 @@ const shallRewrite = () => {
 };
 
 module.exports = {
-  getNumOfElements: () => repeatQuestion(askForParam),
+  getNumOfElements: (rl) => repeatQuestion(rl, askForParam),
   getPathToWriteFile
 };

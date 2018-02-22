@@ -2,13 +2,19 @@ const fs = require(`fs`);
 const {promisify} = require(`util`);
 const parser = require(`../utils/inputParser`);
 const generator = require(`../generator/generator`);
+const readline = require(`readline`);
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 const writeToFile = promisify(fs.writeFile);
 
 const execute = async () => {
   let data = [];
-  let num = await parser.getNumOfElements();
-  const path = await parser.getPathToWriteFile();
+  let num = await parser.getNumOfElements(rl);
+  const path = await parser.getPathToWriteFile(rl);
 
   while (num > 0) {
     const entity = generator.generateEntity();
@@ -20,6 +26,7 @@ const execute = async () => {
   } catch (err) {
     console.log(err.message);
   }
+  rl.close();
   process.exit(0);
 };
 
