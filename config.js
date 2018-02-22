@@ -1,3 +1,5 @@
+const path = require(`path`);
+
 module.exports = {
-  STATIC_DIR: __dirname + `\\static`
+  STATIC_DIR: path.join(__dirname, `static`)
 };
