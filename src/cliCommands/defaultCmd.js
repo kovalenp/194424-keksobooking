@@ -4,14 +4,13 @@ const parser = require(`../utils/inputParser`);
 const generator = require(`../generator/generator`);
 const readline = require(`readline`);
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
 const writeToFile = promisify(fs.writeFile);
 
 const execute = async () => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
   let data = [];
   let num = await parser.getNumOfElements(rl);
   const path = await parser.getPathToWriteFile(rl);
