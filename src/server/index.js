@@ -4,7 +4,7 @@ const fs = require(`fs`);
 const {promisify} = require(`util`);
 const path = require(`path`);
 const config = require(`../../config`);
-const contentTypes = require(`../utils/contentTypes`);
+const contentTypes = require(`./contentTypes`);
 
 const readfile = promisify(fs.readFile);
 const HOSTNAME = `127.0.0.1`;
