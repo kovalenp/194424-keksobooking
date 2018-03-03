@@ -1,5 +1,6 @@
-const getOffers = async () => {
-  return (`All offers`);
+const getOffers = async (req) => {
+  console.log(req.query);
+  return {response: `All offers`};
 };
 
 module.exports = {
