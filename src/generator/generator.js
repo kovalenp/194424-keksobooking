@@ -4,6 +4,7 @@ const data = require(`../data/keksobooking`);
 
 const generateEntity = () => {
   const location = {x: _.random(300, 900), y: _.random(150, 500)};
+  const date = new Date(+(new Date()) - Math.floor(Math.random()*10000000000)).getTime(); // Random date in epoch
   return {
     author: {
       avatar: `http://robohash.org/${_.random(999999)}`
@@ -22,6 +23,7 @@ const generateEntity = () => {
       photos: _.shuffle(data.PHOTOS)
     },
     location,
+    date,
   };
 };
 

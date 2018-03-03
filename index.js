@@ -4,7 +4,7 @@ const description = require(`./src/commands/descriptionCmd`);
 const license = require(`./src/commands/licenseCmd`);
 const unrecognized = require(`./src/commands/unrecognizedCmd`);
 const help = require(`./src/commands/helpCmd`);
-const defaultCmd = require(`./src/commands/descriptionCmd`);
+const defaultCmd = require(`./src/commands/defaultCmd`);
 const serverCmd = require(`./src/commands/serverCmd`);
 
 const commands = [author, version, description, license, help, serverCmd, unrecognized];

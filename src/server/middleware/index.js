@@ -1,5 +1,5 @@
 const _ = require(`lodash`);
-const {serverError} = require(`../errors`);
+const InternalServerError = require(`../errors/InternalServerError`);
 
 const standardHandler = (fn) => async (req, res, next) => {
   try {
@@ -10,15 +10,14 @@ const standardHandler = (fn) => async (req, res, next) => {
   }
 };
 
-// that next is needed
+// this next parameter is needed, dear Mr. eslint
 // eslint-disable-next-line
 const errorHandler = (err, req, res, next) => {
   if (!_.isNumber(err.statusCode)) {
-    err.statusCode = 500;
+    err = new InternalServerError();
   }
   res.status(err.statusCode);
-  // log err.message here
-  res.json(serverError);
+  res.json([{error: err.message, errorMessage: err.errorMessage}]); // TODO: render error in a better way (for validation)
 };
 
 module.exports = {
