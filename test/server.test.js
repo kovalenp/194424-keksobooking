@@ -15,10 +15,10 @@ describe(`GET api/offers`, function () {
 });
 
 describe(`GET api/offers/{date}>`, function () {
-  it(`respond with HTTP 200`, function (done) {
+  it(`respond with HTTP 404 for non existing offer`, function (done) {
     request(app)
-        .get(`/api/offers/154541243`)
+        .get(`/api/offers/noSuchOfferExists`)
         .set(`Accept`, `application/json`)
-        .expect(200, done);
+        .expect(404, done);
   });
 });
