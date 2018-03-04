@@ -5,4 +5,7 @@ module.exports = class NotFoundError extends Error {
     this.message = `Not Found`;
     this.errorMessage = reason;
   }
+  displayError() {
+    return [{error: this.message, errorMessage: this.errorMessage}];
+  }
 };

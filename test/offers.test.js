@@ -1,12 +1,9 @@
 /* eslint-disable */
 const request = require(`supertest`);
-const express = require(`express`);
-const api = require(`../src/server/routes/api`);
 const repo = require(`../src/repository`);
 const assert = require(`assert`);
 
-const app = express();
-app.use(`/api/`, api.router);
+const {app} = require("../src/server");
 
 const TEST_OFFER = {
   author: {

@@ -1,4 +1,7 @@
 const _ = require(`lodash`);
+
+const {validateSchema} = require(`../validation/validator`);
+const ValidationError = require(`../errors/ValidationError`);
 const InternalServerError = require(`../errors/InternalServerError`);
 
 const standardHandler = (fn) => async (req, res, next) => {
@@ -18,11 +21,20 @@ const errorHandler = (err, req, res, next) => {
     err = new InternalServerError();
   }
   res.status(err.statusCode);
-  res.json([{error: err.message, errorMessage: err.errorMessage}]); // TODO: render error in a better way (for validation)
+  res.json(err.displayError()); // TODO: render error in a better way (for validation)
+};
+
+const validateReqQueryParams = (schema) => async (req, res, next) => {
+  const errors = validateSchema(req.query, schema);
+  if (errors.length > 0) {
+    return next(new ValidationError(errors));
+  }
+  return next();
 };
 
 module.exports = {
   standardHandler,
+  validateReqQueryParams,
   errorHandler,
 };
 

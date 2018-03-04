@@ -5,4 +5,8 @@ module.exports = class InternalServerError extends Error {
     this.message = `Internal Error`;
     this.errorMessage = `Server has fallen into unrecoverable problem.`;
   }
+
+  displayError() {
+    return [{error: this.message, errorMessage: this.errorMessage}];
+  }
 };
