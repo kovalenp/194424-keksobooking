@@ -2,7 +2,7 @@
 const request = require(`supertest`);
 const assert = require(`assert`);
 const repo = require(`../src/repository`);
-const {app} = require("../src/server");
+const {app} = require(`../src/server`);
 
 const TEST_OFFER = {
   author: {

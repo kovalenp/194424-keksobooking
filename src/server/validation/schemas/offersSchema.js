@@ -15,6 +15,22 @@ const getOffersSchema = {
   },
 };
 
+const postOfferSchema = {
+  'skip': {
+    required: false,
+    assertions: [
+      isNumber()
+    ]
+  },
+  'limit': {
+    required: false,
+    assertions: [
+      isNumber()
+    ]
+  },
+};
+
 module.exports = {
-  getOffersSchema
+  getOffersSchema,
+  postOfferSchema
 };

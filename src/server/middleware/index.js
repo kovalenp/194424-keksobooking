@@ -32,9 +32,18 @@ const validateReqQueryParams = (schema) => async (req, res, next) => {
   return next();
 };
 
+const validateReqBodyParams = (schema) => async (req, res, next) => {
+  const errors = validateSchema(req.body, schema);
+  if (errors.length > 0) {
+    return next(new ValidationError(errors));
+  }
+  return next();
+};
+
 module.exports = {
   standardHandler,
   validateReqQueryParams,
+  validateReqBodyParams,
   errorHandler,
 };
 
