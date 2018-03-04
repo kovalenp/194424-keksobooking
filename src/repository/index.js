@@ -1,6 +1,7 @@
+const _ = require(`lodash`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
-const data = require(`../../storage/storage`);
+let data = require(`../../storage/storage`);
 const config = require(`../../config`);
 
 const writeToFile = promisify(fs.writeFile);
@@ -14,7 +15,7 @@ const getOfferByDate = async (date) => {
 };
 
 const saveAvatar = async (buffer) => {
-  await writeToFile(config.STORAGE_DIR + `/images/temp.png`, buffer);
+  await writeToFile(config.STORAGE_DIR + `/images/avatar.png`, buffer);
 };
 
 const saveOffer = async (offer) => {
@@ -22,10 +23,16 @@ const saveOffer = async (offer) => {
   await writeToFile(config.STORAGE_DIR + `/storage.json`, JSON.stringify(data));
 };
 
+const deleteAll = async () => {
+  data = [];
+  await writeToFile(config.STORAGE_DIR + `/storage.json`, `[]`);
+};
+
 module.exports = {
   getAllOffers,
   getOfferByDate,
   saveAvatar,
   saveOffer,
+  deleteAll,
 };
 

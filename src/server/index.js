@@ -9,7 +9,7 @@ const HOSTNAME = `127.0.0.1`;
 const app = express();
 app.use(express.static(config.STATIC_DIR));
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(`/api/`, api.router);

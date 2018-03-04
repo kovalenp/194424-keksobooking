@@ -17,9 +17,10 @@ const getOfferByDate = async (req) => {
 const addOffer = async (req) => {
   const avatar = req.file;
   if (avatar) {
-    await repository.saveAvatar(req.file);
+    await repository.saveAvatar(req.file.buffer);
   }
   await repository.saveOffer(req.body);
+  return req.body;
 };
 
 const toPage = async (offers, skip = 0, limit = 20) => {

@@ -13,6 +13,7 @@ const standardHandler = (fn) => async (req, res, next) => {
 // this next parameter is needed, dear Mr. eslint
 // eslint-disable-next-line
 const errorHandler = (err, req, res, next) => {
+  console.log(err);
   if (!_.isNumber(err.statusCode)) {
     err = new InternalServerError();
   }
