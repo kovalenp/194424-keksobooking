@@ -1,4 +1,3 @@
-const _ = require(`lodash`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 let data = require(`../../storage/storage`);

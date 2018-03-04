@@ -1,8 +1,7 @@
 /* eslint-disable */
 const request = require(`supertest`);
-const repo = require(`../src/repository`);
 const assert = require(`assert`);
-
+const repo = require(`../src/repository`);
 const {app} = require("../src/server");
 
 const TEST_OFFER = {
@@ -33,6 +32,10 @@ describe(`Offers REST endpoints tests`, function () {
   before(async () => {
     await repo.deleteAll();
     await repo.saveOffer(TEST_OFFER);
+  });
+
+  after(async () => {
+    await repo.deleteAll();
   });
 
   describe(`GET`, function () {
@@ -72,16 +75,35 @@ describe(`Offers REST endpoints tests`, function () {
   });
 
   describe(`POST`, function () {
-    it(`api/offers post a new onj`, async () => {
+
+    it(`api/offers add a new offer from data passed as json`, async () => {
       const result = await request(app)
         .post(`/api/offers`)
         .set(`Content-Type`, `application/json`)
         .send({
           author: {
-            name: `postTest`,
+            name: `json`,
           }
         })
         .expect(200);
+      assert.equal(result.body.author.name, 'json');
+    });
+
+    it(`api/offers add a new offer from data passed as formdata`, async () => {
+      const result = await request(app)
+        .post(`/api/offers`)
+        .field(`author[name]`, `form`)
+        .expect(200);
+      assert.equal(result.body.author.name, `form`);
+    });
+
+    it(`api/offers add avatar image`, async () => {
+      const result = await request(app)
+        .post(`/api/offers`)
+        .field(`author[name]`, `form`)
+        .attach(`avatar`, `test/testData/panda.jpg`)
+        .expect(200);
+      assert.equal(result.body.author.name, `form`);
     });
   });
 });
