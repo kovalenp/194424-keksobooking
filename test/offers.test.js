@@ -101,7 +101,7 @@ describe(`Offers REST endpoints tests`, function () {
       const result = await request(app)
         .post(`/api/offers`)
         .field(`author[name]`, `form`)
-        .attach(`avatar`, `test/testData/panda.jpg`)
+        .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
         .expect(200);
       assert.equal(result.body.author.name, `form`);
     });
