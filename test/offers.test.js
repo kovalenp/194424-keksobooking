@@ -83,9 +83,22 @@ describe(`Offers REST endpoints tests`, function () {
         .send({
           author: {
             name: `json`,
+          },
+          offer: {
+            title: `some test title long enough to pass the test`,
+            address: `some test address`,
+            description: `some test description`,
+            price: 3000,
+            type: `flat`,
+            rooms: 1,
+            guests: 1,
+            checkin: `20:39`,
+            checkout: `7:00`,
+            features: [`elevator`, `conditioner`]
           }
         })
         .expect(200);
+      console.log(result.body);
       assert.equal(result.body.author.name, 'json');
     });
 
@@ -93,6 +106,14 @@ describe(`Offers REST endpoints tests`, function () {
       const result = await request(app)
         .post(`/api/offers`)
         .field(`author[name]`, `form`)
+        .field(`offer[title]`, `some test title long enough to pass the test`)
+        .field(`offer[address]`, `some test description`)
+        .field(`offer[description]`, `some test title long enough to pass the test`)
+        .field(`offer[price]`, 3000)
+        .field(`offer[type]`, `flat`)
+        .field(`offer[rooms]`, 1)
+        .field(`offer[checkin]`, `20:39`)
+        .field(`offer[checkout]`, `20:39`)
         .expect(200);
       assert.equal(result.body.author.name, `form`);
     });
@@ -101,6 +122,14 @@ describe(`Offers REST endpoints tests`, function () {
            const result = await request(app)
               .post(`/api/offers`)
              .field(`author[name]`, `form`)
+             .field(`offer[title]`, `some test title long enough to pass the test`)
+             .field(`offer[address]`, `some test description`)
+             .field(`offer[description]`, `some test title long enough to pass the test`)
+             .field(`offer[price]`, 3000)
+             .field(`offer[type]`, `flat`)
+             .field(`offer[rooms]`, 1)
+             .field(`offer[checkin]`, `20:39`)
+             .field(`offer[checkout]`, `20:39`)
              .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
              .expect(200);
            assert.equal(result.body.author.name, `form`);
