@@ -14,7 +14,7 @@ const getOfferByDate = async (date) => {
 };
 
 const saveAvatar = async (buffer) => {
-  await writeToFile(config.STORAGE_DIR + `/images/avatar-${Date.now().getMilliseconds()}.png`, buffer);
+  await writeToFile(config.STORAGE_DIR + `/images/avatar-${Date.now()}.png`, buffer);
 };
 
 const saveOffer = async (offer) => {
