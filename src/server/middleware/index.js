@@ -3,6 +3,7 @@ const _ = require(`lodash`);
 const {validateSchema} = require(`../validation/validator`);
 const ValidationError = require(`../errors/ValidationError`);
 const InternalServerError = require(`../errors/InternalServerError`);
+const NotFoundError = require(`../errors/NotFoundError`);
 
 const standardHandler = (fn) => async (req, res, next) => {
   try {
@@ -17,7 +18,8 @@ const standardHandler = (fn) => async (req, res, next) => {
 // eslint-disable-next-line
 const errorHandler = (err, req, res, next) => {
   console.log(err);
-  if (!_.isNumber(err.statusCode)) {
+  if (!(err instanceof NotFoundError) && !(err instanceof ValidationError)) {
+    console.log(err); // log error
     err = new InternalServerError();
   }
   res.status(err.statusCode);
@@ -40,10 +42,25 @@ const validateReqBodyParams = (schema) => async (req, res, next) => {
   return next();
 };
 
+// ну пусть будет вот так, в реальной жизни я бы использовал библиотеку, а нужно доделать на этой неделе все :)
+const validateSpecifiedData = (map) => async (req, res, next) => {
+  const errors = [];
+  Object.keys(map).forEach((field) => {
+    if (_.isObject(req.body[field])) {
+      errors.push(...validateSchema(req.body[field], map[field]));
+    }
+  });
+  if (errors.length > 0) {
+    return next(new ValidationError(errors));
+  }
+  return next();
+};
+
 module.exports = {
   standardHandler,
   validateReqQueryParams,
   validateReqBodyParams,
+  validateSpecifiedData,
   errorHandler,
 };
 

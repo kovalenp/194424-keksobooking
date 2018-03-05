@@ -106,4 +106,75 @@ describe(`Offers REST endpoints tests`, function () {
       assert.equal(result.body.author.name, `form`);
     });
   });
+
+  describe(`POST validation`, function () {
+
+    it(`title is too short `, async () => {
+      const result = await request(app)
+        .post(`/api/offers`)
+        .set(`Content-Type`, `application/json`)
+        .send({
+          offer: {
+            title: `1`,
+            address: `some test address`,
+            description: `some test description`,
+            price: 3000,
+            type: `flat`,
+            rooms: 1,
+            guests: 1,
+            checkin: `20:39`,
+            checkout: `7:00`,
+            features: [`elevator`, `conditioner`]
+          }
+        })
+        .expect(400);
+      assert(result.body[0].parameter.includes(`title`));
+    });
+
+    it(`title is too long `, async () => {
+      const result = await request(app)
+        .post(`/api/offers`)
+        .set(`Content-Type`, `application/json`)
+        .send({
+          offer: {
+            title: 't'.repeat(141),
+            address: `some test address`,
+            description: `some test description`,
+            price: 3000,
+            type: `flat`,
+            rooms: 1,
+            guests: 1,
+            checkin: `20:39`,
+            checkout: `7:00`,
+            features: [`elevator`, `conditioner`]
+          }
+        })
+        .expect(400);
+      assert(result.body[0].parameter.includes(`title`));
+    });
+
+    it(`wrong chcekin time`, async () => {
+      const result = await request(app)
+        .post(`/api/offers`)
+        .set(`Content-Type`, `application/json`)
+        .send({
+          offer: {
+            title: `some test title long enough to pass the test`,
+            address: `some test address`,
+            description: `some test description`,
+            price: 3000,
+            type: `flat`,
+            rooms: 1,
+            guests: 1,
+            checkin: `20:99`,
+            checkout: `7:00`,
+            features: [`elevator`, `conditioner`]
+          }
+        })
+        .expect(400);
+      assert(result.body[0].parameter.includes(`checkin`));
+    });
+
+    // the rest of validation tests goes here
+  });
 });

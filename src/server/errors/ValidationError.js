@@ -1,4 +1,4 @@
-module.exports = class InternalServerError extends Error {
+module.exports = class ValidationError extends Error {
   constructor(errors) {
     super();
     this.statusCode = 400;
@@ -6,6 +6,7 @@ module.exports = class InternalServerError extends Error {
   }
 
   displayError() {
+    console.log(this.errors);
     return this.errors;
   }
 };

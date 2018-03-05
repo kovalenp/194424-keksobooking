@@ -1,3 +1,5 @@
+const TIME_FORMAT = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+
 const oneOf = (choices) => {
   return {
     assert(option) {
@@ -57,6 +59,14 @@ module.exports = {
         return set.size === options.length;
       },
       message: `should be unique`
+    };
+  },
+  isTime() {
+    return {
+      assert(time) {
+        return time.match(TIME_FORMAT);
+      },
+      message: `should be timestamp in format HH:mm`
     };
   }
 };

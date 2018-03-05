@@ -1,4 +1,5 @@
-const {isNumber} = require(`../assertion`);
+const {isNumber, inRange, oneOf, textRange, isTime, anyOf} = require(`../assertion`);
+const data = require(`../../../data/keksobooking`);
 
 const getOffersSchema = {
   'skip': {
@@ -16,21 +17,75 @@ const getOffersSchema = {
 };
 
 const postOfferSchema = {
-  'skip': {
-    required: false,
+  'title': {
+    required: true,
     assertions: [
-      isNumber()
+      textRange(30, 140)
     ]
   },
-  'limit': {
+  'type': {
+    required: true,
+    assertions: [
+      oneOf(data.TYPES)
+    ]
+  },
+  'price': {
+    required: true,
+    assertions: [
+      isNumber(),
+      inRange(1, 100000),
+    ]
+  },
+  'address': {
+    required: true,
+    assertions: [
+      textRange(0, 100)
+    ]
+  },
+  'checkin': {
+    required: true,
+    assertions: [
+      isTime()
+    ]
+  },
+  'checkout': {
+    required: true,
+    assertions: [
+      isTime()
+    ]
+  },
+  'rooms': {
+    required: true,
+    assertions: [
+      isNumber(),
+      inRange(1, 100000),
+    ]
+  },
+  'features': {
     required: false,
     assertions: [
-      isNumber()
+      anyOf(data.FEATURES),
+    ]
+  },
+};
+
+const postAuthorSchema = {
+  'avatar': {
+    required: false,
+    assertions: [
+      textRange(0, 100)
+    ]
+  },
+  'name': {
+    required: false,
+    assertions: [
+      textRange(0, 100)
     ]
   },
 };
 
 module.exports = {
   getOffersSchema,
-  postOfferSchema
+  postOfferSchema,
+  postAuthorSchema,
 };
