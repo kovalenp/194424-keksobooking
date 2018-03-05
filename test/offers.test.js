@@ -96,15 +96,6 @@ describe(`Offers REST endpoints tests`, function () {
         .expect(200);
       assert.equal(result.body.author.name, `form`);
     });
-
-    it(`api/offers add avatar image`, async () => {
-      const result = await request(app)
-        .post(`/api/offers`)
-        .field(`author[name]`, `form`)
-        .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
-        .expect(200);
-      assert.equal(result.body.author.name, `form`);
-    });
   });
 
   describe(`POST validation`, function () {
