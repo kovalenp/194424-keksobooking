@@ -17,7 +17,6 @@ const standardHandler = (fn) => async (req, res, next) => {
 // this next parameter is needed, dear Mr. eslint
 // eslint-disable-next-line
 const errorHandler = (err, req, res, next) => {
-  console.log(err);
   if (!(err instanceof NotFoundError) && !(err instanceof ValidationError)) {
     console.log(err); // log error
     err = new InternalServerError();

@@ -54,7 +54,7 @@ describe(`Offers REST endpoints tests`, function () {
         .set(`Accept`, `application/json`)
         .expect(200);
       assert.equal(result.body.total, 1);
-      assert.equal(result.body.data[0].author.name,`Pavel`);
+      assert.equal(result.body.data[0].author.name,TEST_OFFER.author.name);
     });
 
     it(`api/offers can pass query params values`, async () => {
@@ -96,6 +96,15 @@ describe(`Offers REST endpoints tests`, function () {
         .expect(200);
       assert.equal(result.body.author.name, `form`);
     });
+
+    it(`api/offers add avatar image`, async () => {
+           const result = await request(app)
+              .post(`/api/offers`)
+             .field(`author[name]`, `form`)
+             .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
+             .expect(200);
+           assert.equal(result.body.author.name, `form`);
+         });
   });
 
   describe(`POST validation`, function () {

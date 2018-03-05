@@ -58,7 +58,7 @@ const postOfferSchema = {
     required: true,
     assertions: [
       isNumber(),
-      inRange(1, 100000),
+      inRange(1, 1000),
     ]
   },
   'features': {
