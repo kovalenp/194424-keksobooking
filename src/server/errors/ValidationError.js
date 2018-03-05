@@ -6,7 +6,6 @@ module.exports = class ValidationError extends Error {
   }
 
   displayError() {
-    console.log(this.errors);
     return this.errors;
   }
 };
