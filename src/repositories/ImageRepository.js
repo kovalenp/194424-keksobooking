@@ -33,7 +33,6 @@ class ImageRepository {
       stream.pipe(bucket.openUploadStream(filename)).on(`error`, fail).on(`finish`, success);
     });
   }
-
 }
 
 module.exports = new ImageRepository();

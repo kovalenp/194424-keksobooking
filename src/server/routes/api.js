@@ -11,6 +11,7 @@ const router = new Router();
 
 router.get(`/offers`, validateReqQueryParams(schemas.getOffersSchema), standardHandler(offerController.getOffers));
 router.get(`/offers/:date`, standardHandler(offerController.getOfferByDate));
+router.get(`/offers/:date/avatar`, standardHandler(offerController.getAvatar));
 router.post(`/offers`, upload.single(`avatar`),
     validateSpecifiedData({offer: schemas.postOfferSchema, author: schemas.postAuthorSchema}),
     standardHandler(offerController.addOffer));
