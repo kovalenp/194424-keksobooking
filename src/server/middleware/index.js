@@ -14,6 +14,15 @@ const standardHandler = (fn) => async (req, res, next) => {
   }
 };
 
+const imageHandler = (fn) => async (req, res, next) => {
+  try {
+    const result = await fn(req, res);
+    return result.stream.pipe(result.res);
+  } catch (ex) {
+    return next(ex);
+  }
+};
+
 // this next parameter is needed, dear Mr. eslint
 // eslint-disable-next-line
 const errorHandler = (err, req, res, next) => {
@@ -65,6 +74,7 @@ module.exports = {
   standardHandler,
   validateReqQueryParams,
   validateReqBodyParams,
+  imageHandler,
   validateSpecifiedData,
   errorHandler,
 };
