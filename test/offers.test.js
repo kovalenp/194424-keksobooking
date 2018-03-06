@@ -1,7 +1,6 @@
 /* eslint-disable */
 const request = require(`supertest`);
 const assert = require(`assert`);
-const repo = require(`../src/repository`);
 const {app} = require(`../src/server`);
 
 const TEST_OFFER = {
@@ -30,12 +29,12 @@ const TEST_OFFER = {
 
 describe(`Offers REST endpoints tests`, function () {
   before(async () => {
-    await repo.deleteAll();
+    // await repo.deleteAll();
     await repo.saveOffer(TEST_OFFER);
   });
 
   after(async () => {
-    await repo.deleteAll();
+    // await repo.deleteAll();
   });
 
   describe(`GET`, function () {
