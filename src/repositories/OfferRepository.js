@@ -22,6 +22,10 @@ class OfferRepository {
   async saveOffer(offerData) {
     return (await this.collection).insertOne(offerData);
   }
+
+  async removeOffer(date) {
+    return (await this.collection).remove({date});
+  }
 }
 
 module.exports = new OfferRepository(setupCollection()

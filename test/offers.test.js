@@ -2,6 +2,7 @@
 const request = require(`supertest`);
 const assert = require(`assert`);
 const {app} = require(`../src/server`);
+const repo = require(`../src/repositories/OfferRepository`);
 
 const TEST_OFFER = {
   author: {
@@ -12,7 +13,7 @@ const TEST_OFFER = {
     title: `Маленькая квартирка рядом с парком`,
     address: `102-0075 Tōkyō-to, Chiyoda-ku, Sanbanchō`,
     description: `Маленькая чистая квратира на краю парка. Без интернета, регистрации и СМС.`,
-    pric: 30000,
+    price: 30000,
     type: `flat`,
     rooms: 1,
     guests: 1,
@@ -24,17 +25,16 @@ const TEST_OFFER = {
     x: 471,
     y: 545
   },
-  date: 1519136255300
+  date: `1519136255300`
 };
 
 describe(`Offers REST endpoints tests`, function () {
   before(async () => {
-    // await repo.deleteAll();
     await repo.saveOffer(TEST_OFFER);
   });
 
   after(async () => {
-    // await repo.deleteAll();
+    await repo.removeOffer(TEST_OFFER.date);
   });
 
   describe(`GET`, function () {
