@@ -18,4 +18,5 @@ build/
 .env
 
 # Загруженые аватары
-storage/images/
+storage/images/*
+!storage/images/.*

@@ -13,13 +13,7 @@ const getOfferByDate = async (date) => {
   return data.find((o) => o.date === Number(date));
 };
 
-const saveAvatar = async (buffer) => {
-  try {
-    await writeToFile(config.STORAGE_DIR + `/images/avatar-${Date.now()}.png`, buffer);
-  } catch (err) {
-    console.log(err);
-  }
-};
+const saveAvatar = async (buffer) => writeToFile(config.STORAGE_DIR + `/images/avatar-${Date.now()}.png`, buffer);
 
 const saveOffer = async (offer) => {
   data.push(offer);
