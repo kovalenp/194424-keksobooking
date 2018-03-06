@@ -1,9 +1,9 @@
 const db = require(`../db/mongo`);
-
 const setupCollection = async () => {
   const dBase = await db;
-
-  return dBase.collection(`offers`);
+  const collection = dBase.collection(`offers`);
+  collection.createIndex({date: -1}, {unique: true});
+  return collection;
 };
 
 class OfferRepository {
@@ -20,13 +20,44 @@ class OfferRepository {
   }
 
   async saveOffer(offerData) {
-    return (await this.collection).insertOne(offerData);
+    return (await this.collection).insertOne(normalizeOffer(offerData));
   }
 
   async removeOffer(date) {
     return (await this.collection).remove({date});
   }
 }
+
+const normalizeOffer = (data) => {
+  return {
+    author: {
+      name: data.author.name,
+      avatar: data.author.avatar,
+    },
+    offer: {
+      title: data.offer.title,
+      address: data.offer.address,
+      description: data.offer.description,
+      price: parseInt(data.offer.price, 10),
+      type: data.offer.type,
+      rooms: parseInt(data.offer.rooms, 10),
+      guests: parseInt(data.offer.guests, 10),
+      checkin: data.offer.checkin,
+      checkout: data.offer.checkout,
+      features: data.offer.features,
+    },
+    location: {
+      x: data.location ? parseInt(data.location.x, 10) : null,
+      y: data.location ? parseInt(data.location.y, 10) : null,
+    },
+    avatar: {
+      path: data.avatar ? data.avatar.path : null,
+      mimetype: data.avatar ? data.avatar.mimetype : null,
+    },
+    date: data.date ? String(data.date) : String(Date.now())
+  };
+};
+
 
 module.exports = new OfferRepository(setupCollection()
     .catch((e) => {

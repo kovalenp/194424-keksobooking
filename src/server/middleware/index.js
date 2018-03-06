@@ -26,6 +26,9 @@ const imageHandler = (fn) => async (req, res, next) => {
 // this next parameter is needed, dear Mr. eslint
 // eslint-disable-next-line
 const errorHandler = (err, req, res, next) => {
+  if (err.name === `MongoError` && err.code === 11000) {
+    err = new ValidationError({errorMessage: `Offer with this date already exists`});
+  }
   if (!(err instanceof NotFoundError) && !(err instanceof ValidationError)) {
     console.log(err); // log error
     err = new InternalServerError();
