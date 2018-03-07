@@ -5,6 +5,9 @@ const buffer2stream = require(`../../utils/buffer2stream`);
 const NotFoundError = require(`../errors/NotFoundError`);
 const InternalServerError = require(`../errors/InternalServerError`);
 
+const DEFAULT_SKIP_PARAMETER = 0;
+const DEFAULT_LIMIT_PARAMETER = 0;
+
 const getOffers = async (req) => {
   return await toPage(await offerRepository.getAllOffers(), req.query.skip, req.query.limit);
 };
@@ -65,7 +68,7 @@ const getAvatar = async (req, res) => {
   return {res, stream};
 };
 
-const toPage = async (offers, skip = 0, limit = 20) => {
+const toPage = async (offers, skip = DEFAULT_SKIP_PARAMETER, limit = DEFAULT_LIMIT_PARAMETER) => {
   console.log(offers);
   console.log(typeof offers);
   return {

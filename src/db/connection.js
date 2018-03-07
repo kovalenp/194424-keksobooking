@@ -1,6 +1,6 @@
 const {MongoClient} = require(`mongodb`);
 
-const url = `mongodb://localhost:27017`;
+const url = process.env.DB_HOST;
 
 module.exports = MongoClient.connect(url).catch((e) => {
   console.error(`Failed to connect to MongoDB`, e);
