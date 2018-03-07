@@ -1,4 +1,6 @@
 const db = require(`../db/database`);
+const log = require(`../logger`);
+
 const setupCollection = async () => {
   const dBase = await db;
   const collection = dBase.collection(`offers`);
@@ -34,5 +36,5 @@ class OfferRepository {
 
 module.exports = new OfferRepository(setupCollection()
     .catch((e) => {
-      console.error(`Failed to set up offers collection: ${e}`);
+      log.error(`Failed to set up offers collection: ${e}`);
     }));

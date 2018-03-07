@@ -1,6 +1,7 @@
 const offerRepository = require(`../../repositories/OfferRepository`);
 const imageRepository = require(`../../repositories/ImageRepository`);
 const buffer2stream = require(`../../utils/buffer2stream`);
+const log = require(`../../logger`);
 
 const NotFoundError = require(`../errors/NotFoundError`);
 const InternalServerError = require(`../errors/InternalServerError`);
@@ -54,11 +55,11 @@ const getAvatar = async (req, res) => {
   const {info, stream} = await imageRepository.get(avatar.path);
 
   if (!info) {
-    throw new NotFoundError(`File not found`);
+    throw new NotFoundError(`File ${avatar.path} not found`);
   }
 
   if (!stream) {
-    console.log(`Problem loading image`);
+    log.error(`Problem loading image ${avatar.path}`);
     throw new InternalServerError(`File not found`);
   }
 
@@ -69,8 +70,6 @@ const getAvatar = async (req, res) => {
 };
 
 const toPage = async (offers, skip = DEFAULT_SKIP_PARAMETER, limit = DEFAULT_LIMIT_PARAMETER) => {
-  console.log(offers);
-  console.log(typeof offers);
   return {
     data: await (offers.slice(skip).slice(0, limit)),
     skip,
