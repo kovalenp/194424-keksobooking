@@ -1,6 +1,6 @@
 const offerRepository = require(`../../repositories/OfferRepository`);
 const imageRepository = require(`../../repositories/ImageRepository`);
-const buffer2stream = require(`../../utils/buffer2stream`)
+const buffer2stream = require(`../../utils/buffer2stream`);
 
 const NotFoundError = require(`../errors/NotFoundError`);
 const InternalServerError = require(`../errors/InternalServerError`);

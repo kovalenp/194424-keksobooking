@@ -20,7 +20,6 @@ class OfferRepository {
   }
 
   async saveOffer(offerData) {
-    console.log(offerData);
     return (await this.collection).insertOne(offerData);
   }
 
@@ -29,7 +28,6 @@ class OfferRepository {
   }
 
   async removeOffers(query) {
-    console.log(query);
     return (await this.collection).deleteMany(query);
   }
 }
