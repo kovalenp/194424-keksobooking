@@ -2,6 +2,7 @@
 const request = require(`supertest`);
 const assert = require(`assert`);
 const {app} = require(`../src/server`);
+const connection = require("../src/db/connection");
 const repo = require(`../src/repositories/OfferRepository`);
 
 const TEST_OFFER = {
@@ -19,7 +20,7 @@ const TEST_OFFER = {
     guests: 1,
     checkin: `9:00`,
     checkout: `7:00`,
-    features: [ `elevator`, `conditioner` ]
+    features: [`elevator`, `conditioner`]
   },
   location: {
     x: 471,
@@ -30,14 +31,17 @@ const TEST_OFFER = {
 
 describe(`Offers REST endpoints tests`, function () {
   this.timeout(3000);
+  before(async () => {
+    await repo.removeOffers({'offer.description': TEST_OFFER.offer.description});
+    await repo.saveOffer(TEST_OFFER);
+  });
 
+  after(async () => {
+    return (await connection).close();
+  });
 
   describe(`GET`, function () {
 
-    before(async () => {
-      await repo.removeOffers({'offer.description': TEST_OFFER.offer.description});
-      await repo.saveOffer(TEST_OFFER);
-    });
 
     it(`api/offers respond with HTTP 200 and query params set to default`, async () => {
       const result = await request(app)
@@ -54,7 +58,7 @@ describe(`Offers REST endpoints tests`, function () {
         .set(`Accept`, `application/json`)
         .expect(200);
       assert.equal(result.body.total, 1);
-      assert.equal(result.body.data[ 0 ].author.name, TEST_OFFER.author.name);
+      assert.equal(result.body.data[0].author.name, TEST_OFFER.author.name);
     }).timeout(5000);
 
     it(`api/offers can pass query params values`, async () => {
@@ -75,7 +79,6 @@ describe(`Offers REST endpoints tests`, function () {
   });
 
   describe(`POST`, function () {
-    this.timeout(3000);
     before(async () => {
       await repo.removeOffers({'offer.description': TEST_OFFER.offer.description});
     });
@@ -141,11 +144,11 @@ describe(`Offers REST endpoints tests`, function () {
             guests: 1,
             checkin: `20:39`,
             checkout: `7:00`,
-            features: [ `elevator`, `conditioner` ]
+            features: [`elevator`, `conditioner`]
           }
         })
         .expect(400);
-      assert(result.body[ 0 ].parameter.includes(`title`));
+      assert(result.body[0].parameter.includes(`title`));
     });
 
     it(`title is too long `, async () => {
@@ -163,11 +166,11 @@ describe(`Offers REST endpoints tests`, function () {
             guests: 1,
             checkin: `20:39`,
             checkout: `7:00`,
-            features: [ `elevator`, `conditioner` ]
+            features: [`elevator`, `conditioner`]
           }
         })
         .expect(400);
-      assert(result.body[ 0 ].parameter.includes(`title`));
+      assert(result.body[0].parameter.includes(`title`));
     });
 
     it(`wrong chcekin time`, async () => {
@@ -185,11 +188,11 @@ describe(`Offers REST endpoints tests`, function () {
             guests: 1,
             checkin: `20:99`,
             checkout: `7:00`,
-            features: [ `elevator`, `conditioner` ]
+            features: [`elevator`, `conditioner`]
           }
         })
         .expect(400);
-      assert(result.body[ 0 ].parameter.includes(`checkin`));
+      assert(result.body[0].parameter.includes(`checkin`));
     });
 
     // the rest of validation tests goes here

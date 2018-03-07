@@ -1,4 +1,4 @@
-const db = require(`../db/mongo`);
+const db = require(`../db/database`);
 const setupCollection = async () => {
   const dBase = await db;
   const collection = dBase.collection(`offers`);

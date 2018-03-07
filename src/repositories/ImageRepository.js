@@ -1,4 +1,4 @@
-const db = require(`../db/mongo`);
+const db = require(`../db/database`);
 const mongodb = require(`mongodb`);
 
 class ImageRepository {
