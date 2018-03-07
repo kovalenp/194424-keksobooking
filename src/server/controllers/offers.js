@@ -7,7 +7,7 @@ const NotFoundError = require(`../errors/NotFoundError`);
 const InternalServerError = require(`../errors/InternalServerError`);
 
 const DEFAULT_SKIP_PARAMETER = 0;
-const DEFAULT_LIMIT_PARAMETER = 0;
+const DEFAULT_LIMIT_PARAMETER = 20;
 
 const getOffers = async (req) => {
   return await toPage(await offerRepository.getAllOffers(), req.query.skip, req.query.limit);

@@ -21,8 +21,4 @@ if (process.env.NODE_ENV !== `production`) {
   }));
 }
 
-logger.add(new winston.transports.File({
-  filename: `error.txt`, format: winston.format.simple()
-}));
-
 module.exports = logger;

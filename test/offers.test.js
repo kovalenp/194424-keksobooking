@@ -1,4 +1,5 @@
 /* eslint-disable */
+require(`dotenv`).config();
 const request = require(`supertest`);
 const assert = require(`assert`);
 const {app} = require(`../src/server`);
