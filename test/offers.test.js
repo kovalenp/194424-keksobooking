@@ -7,19 +7,19 @@ const repo = require(`../src/repositories/OfferRepository`);
 const TEST_OFFER = {
   author: {
     name: `Pavel`,
-    avatar: `api/offers/Pavel/avatar`
+    avatar: `api/1519136255300/Pavel/avatar`
   },
   offer: {
-    title: `Маленькая квартирка рядом с парком`,
-    address: `102-0075 Tōkyō-to, Chiyoda-ku, Sanbanchō`,
-    description: `Маленькая чистая квратира на краю парка. Без интернета, регистрации и СМС.`,
+    title: `This is a unit test offer which is just about 30 chars`,
+    address: `90210 Beverly Hills test address, California, US`,
+    description: `unit-test`,
     price: 30000,
     type: `flat`,
     rooms: 1,
     guests: 1,
     checkin: `9:00`,
     checkout: `7:00`,
-    features: [`elevator`, `conditioner`]
+    features: [ `elevator`, `conditioner` ]
   },
   location: {
     x: 471,
@@ -29,15 +29,16 @@ const TEST_OFFER = {
 };
 
 describe(`Offers REST endpoints tests`, function () {
-  before(async () => {
-    await repo.saveOffer(TEST_OFFER);
-  });
+  this.timeout(3000);
 
-  after(async () => {
-    await repo.removeOffer(TEST_OFFER.date);
-  });
 
   describe(`GET`, function () {
+
+    before(async () => {
+      await repo.removeOffers({'offer.description': TEST_OFFER.offer.description});
+      await repo.saveOffer(TEST_OFFER);
+    });
+
     it(`api/offers respond with HTTP 200 and query params set to default`, async () => {
       const result = await request(app)
         .get(`/api/offers`)
@@ -45,7 +46,7 @@ describe(`Offers REST endpoints tests`, function () {
         .expect(200);
       assert.equal(result.body.skip, 0);
       assert.equal(result.body.limit, 20);
-    });
+    }).timeout(5000);
 
     it(`api/offers respond with expected offer data`, async () => {
       const result = await request(app)
@@ -53,8 +54,8 @@ describe(`Offers REST endpoints tests`, function () {
         .set(`Accept`, `application/json`)
         .expect(200);
       assert.equal(result.body.total, 1);
-      assert.equal(result.body.data[0].author.name,TEST_OFFER.author.name);
-    });
+      assert.equal(result.body.data[ 0 ].author.name, TEST_OFFER.author.name);
+    }).timeout(5000);
 
     it(`api/offers can pass query params values`, async () => {
       const result = await request(app)
@@ -74,65 +75,53 @@ describe(`Offers REST endpoints tests`, function () {
   });
 
   describe(`POST`, function () {
-
+    this.timeout(3000);
+    before(async () => {
+      await repo.removeOffers({'offer.description': TEST_OFFER.offer.description});
+    });
     it(`api/offers add a new offer from data passed as json`, async () => {
       const result = await request(app)
         .post(`/api/offers`)
         .set(`Content-Type`, `application/json`)
-        .send({
-          author: {
-            name: `json`,
-          },
-          offer: {
-            title: `some test title long enough to pass the test`,
-            address: `some test address`,
-            description: `some test description`,
-            price: 3000,
-            type: `flat`,
-            rooms: 1,
-            guests: 1,
-            checkin: `20:39`,
-            checkout: `7:00`,
-            features: [`elevator`, `conditioner`]
-          }
-        })
+        .send(TEST_OFFER)
         .expect(200);
-      console.log(result.body);
-      assert.equal(result.body.author.name, 'json');
+      assert.equal(result.body.author.name, TEST_OFFER.author.name);
     });
 
     it(`api/offers add a new offer from data passed as formdata`, async () => {
       const result = await request(app)
         .post(`/api/offers`)
-        .field(`author[name]`, `form`)
-        .field(`offer[title]`, `some test title long enough to pass the test`)
-        .field(`offer[address]`, `some test description`)
-        .field(`offer[description]`, `some test title long enough to pass the test`)
-        .field(`offer[price]`, 3000)
-        .field(`offer[type]`, `flat`)
-        .field(`offer[rooms]`, 1)
-        .field(`offer[checkin]`, `20:39`)
-        .field(`offer[checkout]`, `20:39`)
+        .field(`author[name]`, TEST_OFFER.author.name)
+        .field(`offer[title]`, TEST_OFFER.offer.title + ` as form`)
+        .field(`offer[address]`, TEST_OFFER.offer.address)
+        .field(`offer[description]`, TEST_OFFER.offer.description)
+        .field(`offer[price]`, TEST_OFFER.offer.price)
+        .field(`offer[guests]`, TEST_OFFER.offer.guests)
+        .field(`offer[type]`, TEST_OFFER.offer.type)
+        .field(`offer[rooms]`, TEST_OFFER.offer.rooms)
+        .field(`offer[checkin]`, TEST_OFFER.offer.checkin)
+        .field(`offer[checkout]`, TEST_OFFER.offer.checkout)
         .expect(200);
-      assert.equal(result.body.author.name, `form`);
+      assert.equal(result.body.author.name, TEST_OFFER.author.name);
     });
 
     it(`api/offers add avatar image`, async () => {
-           const result = await request(app)
-              .post(`/api/offers`)
-             .field(`author[name]`, `form`)
-             .field(`offer[title]`, `some test title long enough to pass the test`)
-             .field(`offer[address]`, `some test description`)
-             .field(`offer[description]`, `some test title long enough to pass the test`)
-             .field(`offer[price]`, 3000)
-             .field(`offer[type]`, `flat`)
-             .field(`offer[rooms]`, 1)
-             .field(`offer[checkin]`, `20:39`)
-             .field(`offer[checkout]`, `20:39`)
-             .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
-             .expect(200);
-           assert.equal(result.body.author.name, `form`);
-         });
+      const result = await request(app)
+        .post(`/api/offers`)
+        .field(`author[name]`, TEST_OFFER.author.name)
+        .field(`offer[title]`, TEST_OFFER.offer.title + ` with panda`)
+        .field(`offer[address]`, TEST_OFFER.offer.address)
+        .field(`offer[description]`, TEST_OFFER.offer.description)
+        .field(`offer[price]`, TEST_OFFER.offer.price)
+        .field(`offer[guests]`, TEST_OFFER.offer.guests)
+        .field(`offer[type]`, TEST_OFFER.offer.type)
+        .field(`offer[rooms]`, TEST_OFFER.offer.rooms)
+        .field(`offer[checkin]`, TEST_OFFER.offer.checkin)
+        .field(`offer[checkout]`, TEST_OFFER.offer.checkout)
+        .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
+        .expect(200);
+      assert.equal(result.body.author.name, TEST_OFFER.author.name);
+    });
   });
 
   describe(`POST validation`, function () {
@@ -152,11 +141,11 @@ describe(`Offers REST endpoints tests`, function () {
             guests: 1,
             checkin: `20:39`,
             checkout: `7:00`,
-            features: [`elevator`, `conditioner`]
+            features: [ `elevator`, `conditioner` ]
           }
         })
         .expect(400);
-      assert(result.body[0].parameter.includes(`title`));
+      assert(result.body[ 0 ].parameter.includes(`title`));
     });
 
     it(`title is too long `, async () => {
@@ -174,11 +163,11 @@ describe(`Offers REST endpoints tests`, function () {
             guests: 1,
             checkin: `20:39`,
             checkout: `7:00`,
-            features: [`elevator`, `conditioner`]
+            features: [ `elevator`, `conditioner` ]
           }
         })
         .expect(400);
-      assert(result.body[0].parameter.includes(`title`));
+      assert(result.body[ 0 ].parameter.includes(`title`));
     });
 
     it(`wrong chcekin time`, async () => {
@@ -196,11 +185,11 @@ describe(`Offers REST endpoints tests`, function () {
             guests: 1,
             checkin: `20:99`,
             checkout: `7:00`,
-            features: [`elevator`, `conditioner`]
+            features: [ `elevator`, `conditioner` ]
           }
         })
         .expect(400);
-      assert(result.body[0].parameter.includes(`checkin`));
+      assert(result.body[ 0 ].parameter.includes(`checkin`));
     });
 
     // the rest of validation tests goes here

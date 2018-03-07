@@ -19,17 +19,20 @@ const getOfferByDate = async (req) => {
 };
 
 const addOffer = async (req) => {
-  const data = req.body;
+  const data = normalizeOffer(req.body);
   const avatar = req.file;
   if (avatar) {
     const avatarInfo = {
       path: `/api/offers/${data.date}/avatar`,
       mimetype: avatar.mimetype,
     };
-    await imageRepository.save(avatarInfo.path, buffer2stream(avatar.buffer));
     data.avatar = avatarInfo;
+    data.author.avatar = avatarInfo.path;
   }
   await offerRepository.saveOffer(data);
+  if (avatar) {
+    await imageRepository.save(data.avatar.path, buffer2stream(avatar.buffer));
+  }
   return req.body;
 };
 
@@ -70,6 +73,32 @@ const toPage = async (offers, skip = 0, limit = 20) => {
     skip,
     limit,
     total: await offers.length
+  };
+};
+
+const normalizeOffer = (data) => {
+  return {
+    author: {
+      name: data.author.name,
+      avatar: data.author.avatar,
+    },
+    offer: {
+      title: data.offer.title,
+      address: data.offer.address,
+      description: data.offer.description,
+      price: parseInt(data.offer.price, 10),
+      type: data.offer.type,
+      rooms: parseInt(data.offer.rooms, 10),
+      guests: parseInt(data.offer.guests, 10),
+      checkin: data.offer.checkin,
+      checkout: data.offer.checkout,
+      features: data.offer.features,
+    },
+    location: {
+      x: data.location ? parseInt(data.location.x, 10) : null,
+      y: data.location ? parseInt(data.location.y, 10) : null,
+    },
+    date: data.date ? String(data.date) : String(Date.now())
   };
 };
 
