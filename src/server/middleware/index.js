@@ -1,5 +1,3 @@
-const _ = require(`lodash`);
-
 const {validateSchema} = require(`../validation/validator`);
 const ValidationError = require(`../errors/ValidationError`);
 const InternalServerError = require(`../errors/InternalServerError`);
@@ -54,31 +52,11 @@ const validateReqBodyParams = (schema) => async (req, res, next) => {
   return next();
 };
 
-const validateSpecifiedData = (map) => async (req, res, next) => {
-  const errors = [];
-  Object.keys(map).forEach((field) => {
-    if (_.isObject(req.body[field])) {
-      errors.push(...validateSchema(req.body[field], map[field]));
-    } else {
-      errors.push({
-        parameter: field,
-        value: `empty`,
-        errorMessage: `${field} is mandatory`
-      });
-    }
-  });
-  if (errors.length > 0) {
-    return next(new ValidationError(errors));
-  }
-  return next();
-};
-
 module.exports = {
   standardHandler,
   validateReqQueryParams,
   validateReqBodyParams,
   imageHandler,
-  validateSpecifiedData,
   errorHandler,
 };
 

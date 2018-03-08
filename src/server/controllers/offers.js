@@ -1,6 +1,7 @@
 const offerRepository = require(`../../repositories/OfferRepository`);
 const imageRepository = require(`../../repositories/ImageRepository`);
 const buffer2stream = require(`../../utils/buffer2stream`);
+const {normalizeOffer} = require(`../../utils/normalization`);
 const log = require(`../../logger`);
 
 const NotFoundError = require(`../errors/NotFoundError`);
@@ -75,32 +76,6 @@ const toPage = async (offers, skip = DEFAULT_SKIP_PARAMETER, limit = DEFAULT_LIM
     skip,
     limit,
     total: await offers.length
-  };
-};
-
-const normalizeOffer = (data) => {
-  return {
-    author: {
-      name: data.author.name,
-      avatar: data.author.avatar,
-    },
-    offer: {
-      title: data.offer.title,
-      address: data.offer.address,
-      description: data.offer.description,
-      price: parseInt(data.offer.price, 10),
-      type: data.offer.type,
-      rooms: parseInt(data.offer.rooms, 10),
-      guests: parseInt(data.offer.guests, 10),
-      checkin: data.offer.checkin,
-      checkout: data.offer.checkout,
-      features: data.offer.features,
-    },
-    location: {
-      x: data.location ? parseInt(data.location.x, 10) : null,
-      y: data.location ? parseInt(data.location.y, 10) : null,
-    },
-    date: data.date ? String(data.date) : String(Date.now())
   };
 };
 

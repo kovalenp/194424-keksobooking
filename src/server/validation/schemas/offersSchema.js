@@ -67,15 +67,6 @@ const postOfferSchema = {
       anyOf(data.FEATURES),
     ]
   },
-};
-
-const postAuthorSchema = {
-  'avatar': {
-    required: false,
-    assertions: [
-      textRange(0, 100)
-    ]
-  },
   'name': {
     required: false,
     assertions: [
@@ -87,5 +78,4 @@ const postAuthorSchema = {
 module.exports = {
   getOffersSchema,
   postOfferSchema,
-  postAuthorSchema,
 };
