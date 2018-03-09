@@ -7,7 +7,6 @@ Thumbs.db
 *.sublime*
 
 # Вспомогательные файлы
-*.log
 npm-debug.log*
 node_modules/
 
@@ -17,5 +16,5 @@ build/
 # Локальные файлы конфигураций
 .env
 
-# Загруженые аватары
-storage/images/
+# Логи
+*.log

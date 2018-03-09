@@ -1,3 +1,4 @@
+require(`dotenv`).config();
 const author = require(`./src/commands/authorCmd`);
 const version = require(`./src/commands/versionCmd`);
 const description = require(`./src/commands/descriptionCmd`);

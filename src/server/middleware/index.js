@@ -1,9 +1,8 @@
-const _ = require(`lodash`);
-
 const {validateSchema} = require(`../validation/validator`);
 const ValidationError = require(`../errors/ValidationError`);
 const InternalServerError = require(`../errors/InternalServerError`);
 const NotFoundError = require(`../errors/NotFoundError`);
+const log = require(`../../logger`);
 
 const standardHandler = (fn) => async (req, res, next) => {
   try {
@@ -30,11 +29,11 @@ const errorHandler = (err, req, res, next) => {
     err = new ValidationError({errorMessage: `Offer with this date already exists`});
   }
   if (!(err instanceof NotFoundError) && !(err instanceof ValidationError)) {
-    console.log(err); // log error
+    log.error(err, `Unexpected error occurred`); // log error
     err = new InternalServerError();
   }
   res.status(err.statusCode);
-  res.json(err.displayError()); // TODO: render error in a better way (for validation)
+  res.json(err.displayError());
 };
 
 const validateReqQueryParams = (schema) => async (req, res, next) => {
@@ -53,32 +52,11 @@ const validateReqBodyParams = (schema) => async (req, res, next) => {
   return next();
 };
 
-// ну пусть будет вот так, в реальной жизни я бы использовал библиотеку, а нужно доделать на этой неделе все :)
-const validateSpecifiedData = (map) => async (req, res, next) => {
-  const errors = [];
-  Object.keys(map).forEach((field) => {
-    if (_.isObject(req.body[field])) {
-      errors.push(...validateSchema(req.body[field], map[field]));
-    } else {
-      errors.push({
-        parameter: field,
-        value: `empty`,
-        errorMessage: `${field} is mandatory`
-      });
-    }
-  });
-  if (errors.length > 0) {
-    return next(new ValidationError(errors));
-  }
-  return next();
-};
-
 module.exports = {
   standardHandler,
   validateReqQueryParams,
   validateReqBodyParams,
   imageHandler,
-  validateSpecifiedData,
   errorHandler,
 };
 
