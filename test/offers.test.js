@@ -3,7 +3,7 @@ const request = require(`supertest`);
 const assert = require(`assert`);
 const {app} = require(`../src/server`);
 const connection = require("../src/db/connection");
-const repo = require(`./src/repositories/offerRepository`);
+const repo = require(`../src/repositories/offerRepository`);
 const {normalizeOffer} = require(`../src/utils/normalization`);
 
 const TEST_OFFER = {
