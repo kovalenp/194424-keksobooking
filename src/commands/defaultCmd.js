@@ -26,7 +26,6 @@ const execute = async () => {
     console.log(err.message);
   }
   rl.close();
-  process.exit(0);
 };
 
 module.exports = {

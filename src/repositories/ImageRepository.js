@@ -1,38 +1,41 @@
 const db = require(`../db/database`);
 const mongodb = require(`mongodb`);
 
-class ImageRepository {
+let bucket;
 
-  async getBucket() {
-    if (this._bucket) {
-      return this._bucket;
-    }
-    const dBase = await db();
-    if (!this._bucket) {
-      this._bucket = new mongodb.GridFSBucket(dBase, {
-        chunkSizeBytes: 1024 * 1024,
-        bucketName: `avatars`
-      });
-    }
-    return this._bucket;
+const getBucket = async () => {
+  if (bucket) {
+    return bucket;
   }
-
-  async get(filename) {
-    const bucket = await this.getBucket();
-    const results = await (bucket).find({filename}).toArray();
-    const entity = results[0];
-    if (!entity) {
-      return void 0;
-    }
-    return {info: entity, stream: bucket.openDownloadStreamByName(filename)};
-  }
-
-  async save(filename, stream) {
-    const bucket = await this.getBucket();
-    return new Promise((success, fail) => {
-      stream.pipe(bucket.openUploadStream(filename)).on(`error`, fail).on(`finish`, success);
+  const dBase = await db();
+  if (!bucket) {
+    bucket = new mongodb.GridFSBucket(dBase, {
+      chunkSizeBytes: 1024 * 1024,
+      bucketName: `avatars`
     });
   }
-}
+  return bucket;
+};
 
-module.exports = new ImageRepository();
+const get = async (filename) => {
+  bucket = await getBucket();
+  const results = await bucket.find({filename}).toArray();
+  const entity = results[0];
+  if (!entity) {
+    return void 0;
+  }
+  return {info: entity, stream: bucket.openDownloadStreamByName(filename)};
+};
+
+const save = async (filename, stream) => {
+  bucket = await getBucket();
+  return new Promise((success, fail) => {
+    stream.pipe(bucket.openUploadStream(filename)).on(`error`, fail).on(`finish`, success);
+  });
+};
+
+module.exports = {
+  save,
+  get
+};
+

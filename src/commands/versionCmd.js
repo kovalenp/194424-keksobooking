@@ -10,6 +10,5 @@ module.exports = {
   description: `Display program version`,
   execute() {
     console.log(`v${paintVersion()}`);
-    process.exit(0);
   }
 };
