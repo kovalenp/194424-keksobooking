@@ -1,5 +1,5 @@
 const offerRepository = require(`../../repositories/OfferRepository`);
-const imageRepository = require(`../../repositories/ImageRepository`);
+// const imageRepository = require(`../../repositories/ImageRepository`);
 const buffer2stream = require(`../../utils/buffer2stream`);
 const {normalizeOffer} = require(`../../utils/normalization`);
 const log = require(`../../logger`);
@@ -36,7 +36,7 @@ const addOffer = async (req) => {
   }
   await offerRepository.saveOffer(data);
   if (avatar) {
-    await imageRepository.save(data.avatar.path, buffer2stream(avatar.buffer));
+    // await imageRepository.save(data.avatar.path, buffer2stream(avatar.buffer));
   }
   return req.body;
 };
@@ -53,21 +53,21 @@ const getAvatar = async (req, res) => {
     throw new NotFoundError(`There is no avatar for this offer`);
   }
 
-  const {info, stream} = await imageRepository.get(avatar.path);
+  // const {info, stream} = await imageRepository.get(avatar.path);
 
-  if (!info) {
-    throw new NotFoundError(`File ${avatar.path} not found`);
-  }
-
-  if (!stream) {
-    log.error(`Problem loading image ${avatar.path}`);
-    throw new InternalServerError(`File not found`);
-  }
+  // if (!info) {
+  //   throw new NotFoundError(`File ${avatar.path} not found`);
+  // }
+  //
+  // if (!stream) {
+  //   log.error(`Problem loading image ${avatar.path}`);
+  //   throw new InternalServerError(`File not found`);
+  // }
 
   res.set(`content-type`, avatar.mimetype);
-  res.set(`content-length`, info.length);
-  res.status(200);
-  return {res, stream};
+  // res.set(`content-length`, info.length);
+  // res.status(200);
+  return {res}; // , stream};
 };
 
 const toPage = async (offers, skip = DEFAULT_SKIP_PARAMETER, limit = DEFAULT_LIMIT_PARAMETER) => {

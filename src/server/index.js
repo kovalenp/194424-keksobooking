@@ -5,6 +5,7 @@ const middleware = require(`./middleware`);
 const api = require(`./routes/api`);
 const config = require(`../../config`);
 const log = require(`../logger`);
+const {initCollection} = require(`../repositories/OfferRepository`);
 
 const HOSTNAME = process.env.HOST || `127.0.0.1`;
 
@@ -18,7 +19,13 @@ app.use(`/api/`, api.router);
 app.use(middleware.errorHandler);
 
 module.exports = {
-  run(port) {
+  async run(port) {
+    try {
+      await initCollection();
+    } catch (err) {
+      log.error(`Can't initialize DB connection`, err);
+      process.exit(1);
+    }
     const serverAddress = `http://${HOSTNAME}:${port}`;
     app.listen(port, HOSTNAME, () => {
       log.info(`🌍 running at ${serverAddress}/`);

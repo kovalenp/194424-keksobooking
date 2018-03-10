@@ -28,7 +28,7 @@ describe(`Offers REST endpoints tests`, function () {
   });
 
   after(async () => {
-    return (await connection).close();
+    return (await connection()).close();
   });
 
   describe(`GET`, function () {

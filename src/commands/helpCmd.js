@@ -19,7 +19,7 @@ module.exports = {
   description: HELP_DESCRIPTION,
   execute() {
     console.log(helpText);
-    process.exit(0);
+    // process.exit(0);
   }
 };
 
