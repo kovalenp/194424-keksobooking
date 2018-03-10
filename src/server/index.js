@@ -5,7 +5,7 @@ const middleware = require(`./middleware`);
 const api = require(`./routes/api`);
 const config = require(`../../config`);
 const log = require(`../logger`);
-const {initCollection} = require(`../repositories/OfferRepository`);
+const {initCollection} = require(`./src/repositories/offerRepository`);
 
 const HOSTNAME = process.env.HOST || `127.0.0.1`;
 

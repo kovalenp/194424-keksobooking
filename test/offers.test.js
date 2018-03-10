@@ -3,7 +3,7 @@ const request = require(`supertest`);
 const assert = require(`assert`);
 const {app} = require(`../src/server`);
 const connection = require("../src/db/connection");
-const repo = require(`../src/repositories/OfferRepository`);
+const repo = require(`./src/repositories/offerRepository`);
 const {normalizeOffer} = require(`../src/utils/normalization`);
 
 const TEST_OFFER = {
@@ -23,6 +23,7 @@ const TEST_OFFER = {
 describe(`Offers REST endpoints tests`, function () {
   this.timeout(3000);
   before(async () => {
+    await repo.initCollection();
     await repo.removeOffers({'offer.description': TEST_OFFER.description});
     await repo.saveOffer(normalizeOffer(TEST_OFFER));
   });
@@ -32,8 +33,6 @@ describe(`Offers REST endpoints tests`, function () {
   });
 
   describe(`GET`, function () {
-
-
     it(`api/offers respond with HTTP 200 and query params set to default`, async () => {
       const result = await request(app)
         .get(`/api/offers`)
@@ -119,7 +118,6 @@ describe(`Offers REST endpoints tests`, function () {
   });
 
   describe(`POST validation`, function () {
-
     it(`title is too short `, async () => {
       const result = await request(app)
         .post(`/api/offers`)
@@ -139,7 +137,6 @@ describe(`Offers REST endpoints tests`, function () {
         .expect(400);
       assert(result.body[0].parameter.includes(`title`));
     });
-
     it(`title is too long `, async () => {
       const result = await request(app)
         .post(`/api/offers`)
@@ -159,7 +156,6 @@ describe(`Offers REST endpoints tests`, function () {
         .expect(400);
       assert(result.body[0].parameter.includes(`title`));
     });
-
     it(`wrong chcekin time`, async () => {
       const result = await request(app)
         .post(`/api/offers`)
@@ -179,7 +175,6 @@ describe(`Offers REST endpoints tests`, function () {
         .expect(400);
       assert(result.body[0].parameter.includes(`checkin`));
     });
-
     // the rest of validation tests goes here
   });
 });

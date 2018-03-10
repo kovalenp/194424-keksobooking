@@ -1,5 +1,5 @@
-const offerRepository = require(`../../repositories/OfferRepository`);
-const imageRepository = require(`../../repositories/ImageRepository`);
+const offerRepository = require(`./src/repositories/offerRepository`);
+const imageRepository = require(`./src/repositories/imageRepository`);
 const buffer2stream = require(`../../utils/buffer2stream`);
 const {normalizeOffer} = require(`../../utils/normalization`);
 const log = require(`../../logger`);
