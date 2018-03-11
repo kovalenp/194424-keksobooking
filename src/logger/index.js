@@ -1,5 +1,5 @@
 const winston = require(`winston`);
-const {combine, timestamp} = winston.format;
+const {combine, timestamp, prettyPrint} = winston.format;
 const path = require(`path`);
 const config = require(`../../config`);
 
@@ -8,7 +8,7 @@ const combined = path.resolve(config.LOG_DIR, `combined.log`);
 
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL,
-  format: combine(timestamp(), winston.format.json()),
+  format: combine(timestamp(), prettyPrint()),
   transports: [
     new winston.transports.File({filename: errors, level: `error`}),
     new winston.transports.File({filename: combined})

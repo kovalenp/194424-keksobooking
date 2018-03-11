@@ -1,7 +1,7 @@
 const {validateSchema} = require(`../validation/validator`);
-const ValidationError = require(`../errors/ValidationError`);
-const InternalServerError = require(`../errors/InternalServerError`);
-const NotFoundError = require(`../errors/NotFoundError`);
+const ValidationError = require(`../errors/validation-error`);
+const InternalServerError = require(`../errors/internal-server-error`);
+const NotFoundError = require(`../errors/not-found-error`);
 const log = require(`../../logger`);
 
 const standardHandler = (fn) => async (req, res, next) => {

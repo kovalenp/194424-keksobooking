@@ -5,7 +5,7 @@ const middleware = require(`./middleware`);
 const api = require(`./routes/api`);
 const config = require(`../../config`);
 const log = require(`../logger`);
-const {initCollection} = require(`../repositories/offerRepository`);
+const {initCollection} = require(`../repositories/offer-repository`);
 
 const HOSTNAME = process.env.HOST || `127.0.0.1`;
 
@@ -28,7 +28,7 @@ module.exports = {
     }
     const serverAddress = `http://${HOSTNAME}:${port}`;
     app.listen(port, HOSTNAME, () => {
-      log.info(`🌍 running at ${serverAddress}/`);
+      log.info({message: `🌍 running at ${serverAddress}/`});
     });
   },
   app

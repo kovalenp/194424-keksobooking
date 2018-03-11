@@ -1,11 +1,11 @@
-const offerRepository = require(`../../repositories/offerRepository`);
-const imageRepository = require(`../../repositories/imageRepository`);
-const buffer2stream = require(`../../utils/buffer2stream`);
+const offerRepository = require(`../../repositories/offer-repository`);
+const imageRepository = require(`../../repositories/image-repository`);
+const buffer2stream = require(`../../utils/buffer-to-stream`);
 const {normalizeOffer} = require(`../../utils/normalization`);
 const log = require(`../../logger`);
 
-const NotFoundError = require(`../errors/NotFoundError`);
-const InternalServerError = require(`../errors/InternalServerError`);
+const NotFoundError = require(`../../server/errors/not-found-error`);
+const InternalServerError = require(`../../server/errors/internal-server-error`);
 
 const DEFAULT_SKIP_PARAMETER = 0;
 const DEFAULT_LIMIT_PARAMETER = 20;

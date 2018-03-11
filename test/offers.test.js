@@ -3,7 +3,7 @@ const request = require(`supertest`);
 const assert = require(`assert`);
 const {app} = require(`../src/server`);
 const connection = require(`../src/db/connection`);
-const repo = require(`../src/repositories/offerRepository`);
+const repo = require(`../src/repositories/offer-repository`);
 const {normalizeOffer} = require(`../src/utils/normalization`);
 
 const TEST_OFFER = {
@@ -85,7 +85,7 @@ describe(`Offers REST endpoints tests`, function () {
       const result = await request(app)
         .post(`/api/offers`)
         .field(`name`, TEST_OFFER.name)
-        .field(`title`, TEST_OFFER.title + ` as form`)
+        .field(`title`, TEST_OFFER.title)
         .field(`address`, TEST_OFFER.address)
         .field(`description`, TEST_OFFER.description)
         .field(`price`, TEST_OFFER.price)
@@ -102,7 +102,7 @@ describe(`Offers REST endpoints tests`, function () {
       const result = await request(app)
         .post(`/api/offers`)
         .field(`name`, TEST_OFFER.name)
-        .field(`title`, TEST_OFFER.title + ` with panda`)
+        .field(`title`, TEST_OFFER.title)
         .field(`address`, TEST_OFFER.address)
         .field(`description`, TEST_OFFER.description)
         .field(`price`, TEST_OFFER.price)
@@ -111,7 +111,7 @@ describe(`Offers REST endpoints tests`, function () {
         .field(`rooms`, TEST_OFFER.rooms)
         .field(`checkin`, TEST_OFFER.checkin)
         .field(`checkout`, TEST_OFFER.checkout)
-        .attach(`avatar`, `${__dirname}/testData/panda.jpg`)
+        .attach(`avatar`, `${__dirname}/data/panda.jpg`)
         .expect(200);
       assert.equal(result.body.name, TEST_OFFER.name);
     });

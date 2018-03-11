@@ -1,6 +1,6 @@
 const fs = require(`fs`);
 const {promisify} = require(`util`);
-const parser = require(`../utils/inputParser`);
+const parser = require(`./src/utils/input-parser`);
 const generator = require(`../generator/generator`);
 const readline = require(`readline`);
 

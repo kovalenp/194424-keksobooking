@@ -4,7 +4,7 @@ const parsePort = (args) => {
   const p = args[3];
   if (!p) {
     return process.env.PORT || 3000;
-  } else if (isNaN(p)) {
+  } if (isNaN(p)) {
     console.log(`Wrong port: ${p} specified!`);
     process.exit(1);
   }

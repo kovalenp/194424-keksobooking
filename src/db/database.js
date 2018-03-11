@@ -7,7 +7,7 @@ let database = null;
 module.exports = () => {
   if (!database) {
     database = connection().then((client) => client.db(dbName)).catch((e) => {
-      log.error(`Failed to switch database`, e);
+      log.error(`Failed to connect to ${dbName} database`, e);
       process.exit(1);
     });
   }
