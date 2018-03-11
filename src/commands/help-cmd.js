@@ -1,10 +1,10 @@
 const colors = require(`colors`);
 
-const author = require(`./src/commands/author-cmd`);
-const version = require(`./src/commands/version-cmd`);
-const description = require(`./src/commands/description-cmd`);
-const license = require(`./src/commands/license-cmd`);
-const server = require(`./src/commands/server-cmd`);
+const author = require(`./author-cmd`);
+const version = require(`./version-cmd`);
+const description = require(`./description-cmd`);
+const license = require(`./license-cmd`);
+const server = require(`./server-cmd`);
 
 const otherCommands = [author, version, description, license, server];
 
